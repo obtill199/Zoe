@@ -178,16 +178,24 @@ p { text-wrap: pretty; }
   inset: 0 0 auto 0;
   z-index: 50;
   height: var(--header-h);
-  transition: background-color .3s var(--ease), box-shadow .3s var(--ease);
 }
-.site-header.is-scrolled {
+/* Frosted background lives on a pseudo-element: backdrop-filter on the header
+   itself would trap the fixed mobile menu inside the header's box. */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   background: rgba(246, 241, 235, .9);
   -webkit-backdrop-filter: saturate(1.2) blur(14px);
   backdrop-filter: saturate(1.2) blur(14px);
   box-shadow: 0 1px 0 var(--line);
+  opacity: 0;
+  transition: opacity .3s var(--ease);
 }
+.site-header.is-scrolled::before { opacity: 1; }
 
 .header-inner {
+  position: relative;
   height: 100%;
   display: flex;
   align-items: center;
